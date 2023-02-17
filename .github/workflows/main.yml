@@ -47,7 +47,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/checkout@v3
         with:
-          repository: godotengine/tpsdemo
+          repository: godotengine/tps-demo
           path: tps-demo
       
       - name: Download editor artifact
