@@ -28,6 +28,7 @@ jobs:
             editor-executable-name: godot.linuxbsd.editor.x86_64.mono
             export-template-artifact: linux-template-mono
             export-template-file: godot.linuxbsd.template_release.x86_64.mono
+            workflow: linux_builds.yml
             export-preset: Linux
             artifact: Game.x86_64
           - name: 🏁 Windows x86_64 Dev
@@ -35,9 +36,9 @@ jobs:
             editor-template-directory: ~/AppData/Roaming/Godot/export_templates/4.0.beta
             editor-executable-artifact: windows-editor
             editor-executable-name: godot.windows.editor.x86_64.exe
-            workflow: windows_builds.yml
-            export-template-artifact: windows_template
+            export-template-artifact: windows-template
             export-template-file: godot.windows.template_release.x86_64.exe
+            workflow: windows_builds.yml
             export-preset: Windows
             artifact: Game.exe
 
