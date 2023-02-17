@@ -71,7 +71,7 @@ jobs:
         run: |
           chmod +x ./${{ matrix.export-template-file }}
           mkdir -p ${{ matrix.editor-template-directory }}
-          mv ./${{ matrix.export-template-artifact }} ${{ matrix.editor-template-directory }}/${{ matrix.export-template-file }}
+          mv ./${{ matrix.export-template-file }} ${{ matrix.editor-template-directory }}/${{ matrix.export-template-file }}
 
       - name: Run the editor to generate the .godot/ folder
         run: |
