@@ -92,7 +92,7 @@ jobs:
           ls .
           echo "Compressing: ${{env.app_platform}}.zip"
           7z a -tzip "${{env.app_platform}}.zip" "${{ matrix.artifact }}"
-      - name: Upload to github
+      - uses: actions/upload-artifact@v3
         with:
           name: ${{matrix.artifact}}
           path: build/${{matrix.artifact}}
