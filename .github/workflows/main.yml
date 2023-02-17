@@ -45,7 +45,7 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v3
-      - name: Checkout TPS Demo
+      - uses: actions/checkout@v3
         with:
           repository: godotengine/tpsdemo
           path: tps-demo
