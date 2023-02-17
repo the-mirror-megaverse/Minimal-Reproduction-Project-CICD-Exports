@@ -69,7 +69,7 @@ jobs:
 
       - name: Set up template in system-wide editor data
         run: |
-          chmod +x ./${{ matrix.export-template-artifact }}
+          chmod +x ./${{ matrix.export-template-file }}
           mkdir -p ${{ matrix.editor-template-directory }}
           mv ./${{ matrix.export-template-artifact }} ${{ matrix.editor-template-directory }}/${{ matrix.export-template-file }}
 
