@@ -1,0 +1,98 @@
+name: Export all platform clients
+on:
+  push:
+    branches:
+      - 'main'
+  pull_request:
+
+concurrency:
+  group: all-platforms-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+# we ensure our windows runners use bash always.
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build-godot-app:
+    name: ${{ matrix.name }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: 🐧 Linux x86_64 Dev
+            os: ["self-hosted", "Linux", "X64"]
+            editor-template-directory: ~/.local/share/godot/export_templates/4.0.beta
+            editor-executable-artifact: linux-editor-mono
+            editor-executable-name: godot.linuxbsd.editor.x86_64.mono
+            export-template-artifact: linux-template-mono
+            export-template-file: godot.linuxbsd.template_release.x86_64.mono
+            export-preset: Linux
+            artifact: Game.x86_64
+          - name: 🏁 Windows x86_64 Dev
+            os: ["self-hosted", "Windows", "X64"]
+            editor-template-directory: ~/AppData/Roaming/Godot/export_templates/4.0.beta
+            editor-executable-artifact: windows-editor
+            editor-executable-name: godot.windows.editor.x86_64.exe
+            workflow: windows_builds.yml
+            export-template-artifact: windows_template
+            export-template-file: godot.windows.template_release.x86_64.exe
+            export-preset: Windows
+            artifact: Game.exe
+
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v3
+      - name: Checkout TPS Demo
+        with:
+          repository: godotengine/tpsdemo
+          path: tps-demo
+      
+      - name: Download editor artifact
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: ${{ matrix.workflow }}
+          workflow_conclusion: success
+          name: ${{ matrix.editor-executable-artifact }}
+          repo: godotengine/godot
+
+      - name: Download export template artifact
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: ${{ matrix.workflow }}
+          workflow_conclusion: success
+          name: ${{ matrix.export-template-artifact }}
+          repo: godotengine/godot
+
+      - name: Set up template in system-wide editor data
+        run: |
+          chmod +x ./${{ matrix.export-template-artifact }}
+          mkdir -p ${{ matrix.editor-template-directory }}
+          mv ./${{ matrix.export-template-artifact }} ${{ matrix.editor-template-directory }}/${{ matrix.export-template-file }}
+
+      - name: Run the editor to generate the .godot/ folder
+        run: |
+          chmod +x ./${{ matrix.editor-executable-name }}
+          ./${{ matrix.editor-executable-name }} --editor --quit --path ./tps-demo/
+
+      - name: Export game client
+        timeout-minutes: 10
+        run: |
+          mkdir build/
+          ./${{ matrix.editor-executable-name }} \
+              --export-release ${{ matrix.export-preset }} \
+              "build/${{ matrix.artifact }}";
+          chmod -R +x build/
+
+      - name: Zip for client download
+        run: |
+          cd build/
+          ls .
+          echo "Compressing: ${{env.app_platform}}.zip"
+          7z a -tzip "${{env.app_platform}}.zip" "${{ matrix.artifact }}"
+      - name: Upload to github
+        with:
+          name: ${{matrix.artifact}}
+          path: build/${{matrix.artifact}}
