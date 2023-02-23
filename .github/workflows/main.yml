@@ -97,6 +97,7 @@ jobs:
         run: |
           mkdir build/
           ./${{ matrix.editor-executable-name }} \
+              --path ./tps-demo/ \
               --headless \
               --export-release ${{ matrix.export-preset }} \
               "build/${{ matrix.artifact }}";
