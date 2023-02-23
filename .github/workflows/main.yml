@@ -24,7 +24,7 @@ jobs:
           - name: 🐧 Linux x86_64 Dev
             os: ubuntu-latest
             editor-template-directory: ~/.local/share/godot/export_templates/4.0.rc
-            editor-executable-artifact: linux-editor-mono
+            editor-executable-artifact: linux-editor
             editor-executable-name: godot.linuxbsd.editor.x86_64.mono
             export-template-artifact: linux-template-mono
             export-template-file: godot.linuxbsd.template_release.x86_64.mono
@@ -52,7 +52,12 @@ jobs:
         with:
           repository: godotengine/tps-demo
           path: tps-demo
-      
+
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.0.x'
+          dotnet-quality: 'preview'
+
       - name: Download editor artifact
         uses: dawidd6/action-download-artifact@v2
         with:
