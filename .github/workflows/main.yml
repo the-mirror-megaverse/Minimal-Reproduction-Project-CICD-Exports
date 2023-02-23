@@ -22,7 +22,6 @@ jobs:
       matrix:
         include:
           - name: 🐧 Linux x86_64 Dev
-            os: ["self-hosted", "Linux", "X64"]
             editor-template-directory: ~/.local/share/godot/export_templates/4.0.rc
             editor-executable-artifact: linux-editor-mono
             editor-executable-name: godot.linuxbsd.editor.x86_64.mono
@@ -33,7 +32,6 @@ jobs:
             export-preset: Linux
             artifact: Game.x86_64
           - name: 🏁 Windows x86_64 Dev
-            os: ["self-hosted", "Windows", "X64"]
             editor-template-directory: ~/AppData/Roaming/Godot/export_templates/4.0.rc
             editor-executable-artifact: windows-editor
             editor-executable-name: godot.windows.editor.x86_64.exe
@@ -85,13 +83,14 @@ jobs:
         run: |
           chmod +x ./${{ matrix.editor-executable-name }}
           cp export_presets.cfg ./tps-demo/export_presets.cfg
-          ./${{ matrix.editor-executable-name }} --editor --quit --path ./tps-demo/ || true
+          ./${{ matrix.editor-executable-name }} --headless --editor --quit --path ./tps-demo/ || true
 
       - name: Export game client
         timeout-minutes: 10
         run: |
           mkdir build/
           ./${{ matrix.editor-executable-name }} \
+              --headless \
               --export-release ${{ matrix.export-preset }} \
               "build/${{ matrix.artifact }}";
           chmod -R +x build/
