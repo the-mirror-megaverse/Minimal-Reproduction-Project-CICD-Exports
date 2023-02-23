@@ -28,6 +28,7 @@ jobs:
             editor-executable-name: godot.linuxbsd.editor.x86_64.mono
             export-template-artifact: linux-template-mono
             export-template-file: godot.linuxbsd.template_release.x86_64.mono
+            export-template-final-filename: linuxbsd_release_x86_64.mono
             workflow: linux_builds.yml
             export-preset: Linux
             artifact: Game.x86_64
@@ -38,6 +39,7 @@ jobs:
             editor-executable-name: godot.windows.editor.x86_64.exe
             export-template-artifact: windows-template
             export-template-file: godot.windows.template_release.x86_64.exe
+            export-template-final-filename: windows_release_x86_64.exe
             workflow: windows_builds.yml
             export-preset: Windows
             artifact: Game.exe
@@ -71,7 +73,7 @@ jobs:
         run: |
           chmod +x ./${{ matrix.export-template-file }}
           mkdir -p ${{ matrix.editor-template-directory }}
-          mv ./${{ matrix.export-template-file }} ${{ matrix.editor-template-directory }}/${{ matrix.export-template-file }}
+          mv ./${{ matrix.export-template-file }} ${{ matrix.editor-template-directory }}/${{ matrix.export-template-final-filename }}
 
 #      - name: Update the project to the latest version (hack)
 #        run: |
