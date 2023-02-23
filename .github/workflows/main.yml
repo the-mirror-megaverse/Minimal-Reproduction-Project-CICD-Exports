@@ -51,6 +51,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           repository: godotengine/tps-demo
+          branch: 4.0-dev
           path: tps-demo
 
       - uses: actions/setup-dotnet@v3
@@ -80,10 +81,10 @@ jobs:
           mkdir -p ${{ matrix.editor-template-directory }}
           mv ./${{ matrix.export-template-file }} ${{ matrix.editor-template-directory }}/${{ matrix.export-template-final-filename }}
 
-#      - name: Update the project to the latest version (hack)
-#        run: |
-#          chmod +x ./${{ matrix.editor-executable-name }}
-#          ./${{ matrix.editor-executable-name }} --editor --convert-3to4 --path ./tps-demo/ || true
+      - name: Update the project to the latest version (hack)
+        run: |
+          chmod +x ./${{ matrix.editor-executable-name }}
+          ./${{ matrix.editor-executable-name }} --editor --convert-3to4 --path ./tps-demo/ || true
 
 
       - name: Run the editor to generate the .godot/ folder
