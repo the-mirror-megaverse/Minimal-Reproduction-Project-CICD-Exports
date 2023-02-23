@@ -76,7 +76,7 @@ jobs:
       - name: Run the editor to generate the .godot/ folder
         run: |
           chmod +x ./${{ matrix.editor-executable-name }}
-          ./${{ matrix.editor-executable-name }} --editor --quit --path ./tps-demo/
+          ./${{ matrix.editor-executable-name }} --editor --quit --path ./tps-demo/ || true
 
       - name: Export game client
         timeout-minutes: 10
