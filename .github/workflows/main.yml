@@ -73,9 +73,16 @@ jobs:
           mkdir -p ${{ matrix.editor-template-directory }}
           mv ./${{ matrix.export-template-file }} ${{ matrix.editor-template-directory }}/${{ matrix.export-template-file }}
 
+#      - name: Update the project to the latest version (hack)
+#        run: |
+#          chmod +x ./${{ matrix.editor-executable-name }}
+#          ./${{ matrix.editor-executable-name }} --editor --convert-3to4 --path ./tps-demo/ || true
+
+
       - name: Run the editor to generate the .godot/ folder
         run: |
           chmod +x ./${{ matrix.editor-executable-name }}
+          cp export_presets.cfg ./tps-demo/export_presets.cfg
           ./${{ matrix.editor-executable-name }} --editor --quit --path ./tps-demo/ || true
 
       - name: Export game client
