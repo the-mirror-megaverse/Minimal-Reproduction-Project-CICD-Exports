@@ -84,7 +84,7 @@ jobs:
       - name: Update the project to the latest version (hack)
         run: |
           chmod +x ./${{ matrix.editor-executable-name }}
-          ./${{ matrix.editor-executable-name }} --editor --convert-3to4 --path ./tps-demo/ || true
+          ./${{ matrix.editor-executable-name }} --headless --convert-3to4 --path ./tps-demo/ || true
 
 
       - name: Run the editor to generate the .godot/ folder
