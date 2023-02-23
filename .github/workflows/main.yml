@@ -23,7 +23,7 @@ jobs:
         include:
           - name: 🐧 Linux x86_64 Dev
             os: ["self-hosted", "Linux", "X64"]
-            editor-template-directory: ~/.local/share/godot/export_templates/4.0.beta
+            editor-template-directory: ~/.local/share/godot/export_templates/4.0.rc
             editor-executable-artifact: linux-editor-mono
             editor-executable-name: godot.linuxbsd.editor.x86_64.mono
             export-template-artifact: linux-template-mono
@@ -33,7 +33,7 @@ jobs:
             artifact: Game.x86_64
           - name: 🏁 Windows x86_64 Dev
             os: ["self-hosted", "Windows", "X64"]
-            editor-template-directory: ~/AppData/Roaming/Godot/export_templates/4.0.beta
+            editor-template-directory: ~/AppData/Roaming/Godot/export_templates/4.0.rc
             editor-executable-artifact: windows-editor
             editor-executable-name: godot.windows.editor.x86_64.exe
             export-template-artifact: windows-template
