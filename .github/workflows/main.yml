@@ -23,7 +23,7 @@ jobs:
         include:
           - name: 🐧 Linux x86_64 Dev
             os: ubuntu-latest
-            editor-template-directory: ~/.local/share/godot/export_templates/4.0.rc
+            editor-template-directory: ~/.local/share/godot/export_templates/4.0.rc.mono
             editor-executable-artifact: linux-editor-mono
             editor-executable-name: godot.linuxbsd.editor.x86_64.mono
             export-template-artifact: linux-template-mono
