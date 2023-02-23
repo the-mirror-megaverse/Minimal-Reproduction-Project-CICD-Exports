@@ -28,7 +28,7 @@ jobs:
             editor-executable-name: godot.linuxbsd.editor.x86_64.mono
             export-template-artifact: linux-template-mono
             export-template-file: godot.linuxbsd.template_release.x86_64.mono
-            export-template-final-filename: linuxbsd_release_x86_64.mono
+            export-template-final-filename: linux_release.x86_64
             workflow: linux_builds.yml
             export-preset: Linux
             artifact: Game.x86_64
