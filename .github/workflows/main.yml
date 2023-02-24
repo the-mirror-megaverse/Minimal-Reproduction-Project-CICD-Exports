@@ -97,6 +97,7 @@ jobs:
         timeout-minutes: 10
         run: |
           mkdir build/
+          mkdir tps-demo/build
           ./${{ matrix.editor-executable-name }} \
               --path ./tps-demo/ \
               --headless \
