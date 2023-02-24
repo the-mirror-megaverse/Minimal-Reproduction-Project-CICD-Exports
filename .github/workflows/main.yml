@@ -111,6 +111,8 @@ jobs:
 
       - name: Zip for client download
         run: |
+          ls build/
+          ls tps-demo/build
           cd build/
           ls .
           echo "Compressing: ${{env.app_platform}}.zip"
