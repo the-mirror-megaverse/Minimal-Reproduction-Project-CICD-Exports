@@ -89,7 +89,8 @@ jobs:
         run: |
           chmod +x ./${{ matrix.editor-executable-name }}
           ./${{ matrix.editor-executable-name }} --headless --convert-3to4 --path ./tps-demo/ || true
-
+          rm tps-demo/project.godot
+          cp project.godot tps-demo/project.godot
 
       - name: Run the editor to generate the .godot/ folder
         run: |
