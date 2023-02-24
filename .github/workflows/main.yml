@@ -111,13 +111,15 @@ jobs:
 
       - name: Zip for client download
         run: |
+          echo "Build dir contents"
           ls build/
-          ls tps-demo/build
-          cd build/
+          echo "TPS build dir contents"
+          ls tps-demo/build/
+          cd tps-demo/build/
           ls .
           echo "Compressing: ${{env.app_platform}}.zip"
           7z a -tzip "${{env.app_platform}}.zip" "${{ matrix.artifact }}"
       - uses: actions/upload-artifact@v3
         with:
           name: ${{matrix.artifact}}
-          path: build/${{matrix.artifact}}
+          path: tps-demo/build/${{matrix.artifact}}
