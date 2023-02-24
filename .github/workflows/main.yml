@@ -29,6 +29,7 @@ jobs:
             export-template-artifact: linux-template-mono
             export-template-file: godot.linuxbsd.template_release.x86_64.mono
             export-template-final-filename: linux_release.x86_64
+            export-template-final-filename-debug: linux_debug.x86_64
             workflow: linux_builds.yml
             export-preset: Linux
             artifact: Game.x86_64
@@ -40,6 +41,7 @@ jobs:
             export-template-artifact: windows-template
             export-template-file: godot.windows.template_release.x86_64.exe
             export-template-final-filename: windows_release_x86_64.exe
+            export-template-final-filename-debug: windows_debug_x86_64.exe
             workflow: windows_builds.yml
             export-preset: Windows
             artifact: Game.exe
@@ -79,7 +81,9 @@ jobs:
         run: |
           chmod +x ./${{ matrix.export-template-file }}
           mkdir -p ${{ matrix.editor-template-directory }}
-          mv ./${{ matrix.export-template-file }} ${{ matrix.editor-template-directory }}/${{ matrix.export-template-final-filename }}
+          cp ./${{ matrix.export-template-file }} ${{ matrix.editor-template-directory }}/${{ matrix.export-template-final-filename }}
+          # hack to make sure debug template is present
+          cp ./${{ matrix.export-template-file }} ${{ matrix.editor-template-directory }}/${{ matrix.export-template-final-filename-debug }}         
 
       - name: Update the project to the latest version (hack)
         run: |
