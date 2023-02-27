@@ -45,6 +45,32 @@ jobs:
             workflow: windows_builds.yml
             export-preset: Windows
             artifact: Game.exe
+          - name: 🐧 Linux x86_64 Dev (headless)
+            os: ubuntu-latest
+            editor-template-directory: ~/.local/share/godot/export_templates/4.0.rc.mono
+            editor-executable-artifact: linux-editor-mono
+            editor-executable-name: godot.linuxbsd.editor.x86_64.mono
+            export-template-artifact: linux-template-mono
+            export-template-file: godot.linuxbsd.template_release.x86_64.mono
+            export-template-final-filename: linux_release.x86_64
+            export-template-final-filename-debug: linux_debug.x86_64
+            workflow: linux_builds.yml
+            export-preset: Linux
+            args: --headless
+            artifact: Game-headless.x86_64
+          - name: 🏁 Windows x86_64 Dev (headless)
+            os: windows-latest
+            editor-template-directory: ~/AppData/Roaming/Godot/export_templates/4.0.rc
+            editor-executable-artifact: windows-editor
+            editor-executable-name: godot.windows.editor.x86_64.exe
+            export-template-artifact: windows-template
+            export-template-file: godot.windows.template_release.x86_64.exe
+            export-template-final-filename: windows_release_x86_64.exe
+            export-template-final-filename-debug: windows_debug_x86_64.exe
+            workflow: windows_builds.yml
+            export-preset: Windows
+            args: --headless
+            artifact: Game-headless.exe
 
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
@@ -88,7 +114,7 @@ jobs:
       - name: Update the project to the latest version (hack)
         run: |
           chmod +x ./${{ matrix.editor-executable-name }}
-          ./${{ matrix.editor-executable-name }} --headless --convert-3to4 --path ./tps-demo/ || true
+          ./${{ matrix.editor-executable-name }} ${{ matrix.args }} --convert-3to4 --path ./tps-demo/ || true
 
       - name: Copy project override
         run: |
@@ -98,7 +124,7 @@ jobs:
         run: |
           chmod +x ./${{ matrix.editor-executable-name }}
           cp export_presets.cfg ./tps-demo/export_presets.cfg
-          ./${{ matrix.editor-executable-name }} --headless --editor --quit --path ./tps-demo/ || true
+          ./${{ matrix.editor-executable-name }} ${{ matrix.args }} --editor --quit --path ./tps-demo/ || true
 
       - name: Export game client
         timeout-minutes: 10
@@ -107,7 +133,7 @@ jobs:
           mkdir tps-demo/build
           ./${{ matrix.editor-executable-name }} \
               --path ./tps-demo/ \
-              --headless \
+              ${{ matrix.args }} \
               --export-release ${{ matrix.export-preset }} \
               "build/${{ matrix.artifact }}";
           chmod -R +x build/
